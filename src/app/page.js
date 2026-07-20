@@ -316,17 +316,27 @@ export default function Home() {
     <div className="h-[100dvh] w-full flex flex-col bg-gray-50 overflow-hidden">
       
       {/* 상단 헤더 */}
-      <header className="bg-blue-600 text-white p-4 shadow-md z-30 flex-shrink-0 w-full">
-        <div className="max-w-2xl mx-auto w-full flex justify-between items-center">
-          <div className="cursor-pointer" onClick={goHome}>
-            <h1 className="text-xl font-bold tracking-wider">ILLO STUDY</h1>
-            <p className="text-blue-100 text-xs mt-1">Speed Networking</p>
+      <header className="bg-blue-600 text-white py-1 px-4 shadow-md z-30 flex-shrink-0 w-full">
+        <div className="max-w-2xl mx-auto w-full grid grid-cols-3 items-center">
+          {/* 좌측: 타이틀 */}
+          <div className="cursor-pointer justify-self-start" onClick={goHome}>
+            <h1 className="text-lg font-bold tracking-wider leading-none">ILLO STUDY</h1>
+            <p className="text-blue-100 text-[10px] mt-0.5">Speed Networking</p>
           </div>
-          {currentView !== 'home' && (
-            <button onClick={goHome} className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-1 transition">
-              🏠 Home
-            </button>
-          )}
+          
+          {/* 중앙: 이미지 */}
+          <div className="justify-self-center flex items-center h-14">
+            <img src="/logo.png" alt="Pepe Logo" className="h-16 w-auto object-contain cursor-pointer transition transform hover:scale-105 active:scale-95" onClick={goHome} />
+          </div>
+
+          {/* 우측: 홈 버튼 */}
+          <div className="justify-self-end">
+            {currentView !== 'home' && (
+              <button onClick={goHome} className="bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg font-semibold text-xs flex items-center gap-1 transition">
+                🏠 Home
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
