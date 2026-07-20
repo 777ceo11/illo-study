@@ -128,6 +128,12 @@ export default function Home() {
       filtered = questionDB.filter(q => q.level === level);
     }
     
+    // 답변 완료된 질문 제외 (모두 완료된 경우 전체 질문에서 선택)
+    let candidates = filtered.filter(q => !answeredIds.includes(q.id));
+    if (candidates.length === 0) {
+      candidates = filtered;
+    }
+    
     setSelectedLevel(level);
     setCurrentView('random');
     setIsSpinning(true);
@@ -136,14 +142,14 @@ export default function Home() {
     const maxSpins = 12;
     
     const spinInterval = setInterval(() => {
-      const tempIndex = Math.floor(Math.random() * filtered.length);
-      setRandomQuestion(filtered[tempIndex]);
+      const tempIndex = Math.floor(Math.random() * candidates.length);
+      setRandomQuestion(candidates[tempIndex]);
       spinCount++;
 
       if (spinCount >= maxSpins) {
         clearInterval(spinInterval);
-        const finalIndex = Math.floor(Math.random() * filtered.length);
-        setRandomQuestion(filtered[finalIndex]);
+        const finalIndex = Math.floor(Math.random() * candidates.length);
+        setRandomQuestion(candidates[finalIndex]);
         setIsSpinning(false);
       }
     }, 100); 
@@ -173,7 +179,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 sm:p-8">
-      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden min-h-[85vh] flex flex-col relative">
+      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden h-[88vh] sm:h-[88vh] min-h-[600px] flex flex-col relative">
         
         {/* 상단 헤더 */}
         <header className="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md relative z-10">
@@ -312,13 +318,13 @@ export default function Home() {
           <button onClick={goHome} className={`py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center ${currentView === 'home' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏠 홈
           </button>
-          <button onClick={() => viewList('하')} className={`py-2 rounded-lg text-sm font-semibold transition-colors ${currentView === 'list' && selectedLevel === '하' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+          <button onClick={() => viewList('하')} className={`py-2 rounded-lg text-sm font-semibold transition-colors border ${currentView === 'list' && selectedLevel === '하' ? 'bg-green-600 text-white border-green-600' : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'}`}>
             하 리스트
           </button>
-          <button onClick={() => viewList('중')} className={`py-2 rounded-lg text-sm font-semibold transition-colors ${currentView === 'list' && selectedLevel === '중' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+          <button onClick={() => viewList('중')} className={`py-2 rounded-lg text-sm font-semibold transition-colors border ${currentView === 'list' && selectedLevel === '중' ? 'bg-yellow-500 text-white border-yellow-500' : 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'}`}>
             중 리스트
           </button>
-          <button onClick={() => viewList('상')} className={`py-2 rounded-lg text-sm font-semibold transition-colors ${currentView === 'list' && selectedLevel === '상' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+          <button onClick={() => viewList('상')} className={`py-2 rounded-lg text-sm font-semibold transition-colors border ${currentView === 'list' && selectedLevel === '상' ? 'bg-red-600 text-white border-red-600' : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'}`}>
             상 리스트
           </button>
         </nav>
