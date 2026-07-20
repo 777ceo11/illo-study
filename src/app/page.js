@@ -164,7 +164,7 @@ const QuestionCard = ({ data, isAnswered, onToggle }) => {
             value={userKorean}
             onChange={(e) => setUserKorean(e.target.value)}
             placeholder="Need help? Just type the Korean sentence you want to say in English."
-            className="flex-grow px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 placeholder-gray-400 text-gray-800"
+            className="flex-grow min-w-0 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 placeholder-gray-400 text-gray-800"
             disabled={loading}
           />
           <button
