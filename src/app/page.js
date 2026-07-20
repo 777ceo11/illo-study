@@ -178,7 +178,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col bg-gray-50 overflow-hidden">
+    <div className="h-[100dvh] w-full flex flex-col bg-gray-50 overflow-hidden">
       
       {/* 상단 헤더 */}
       <header className="bg-blue-600 text-white p-4 shadow-md z-30 flex-shrink-0 w-full">
@@ -197,7 +197,7 @@ export default function Home() {
 
       {/* 본문 영역 */}
       <main className="flex-1 p-4 sm:p-6 overflow-y-auto w-full">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto pb-12">
           
           {/* 메인 홈 화면 */}
           {currentView === 'home' && (
@@ -317,7 +317,7 @@ export default function Home() {
       </main>
 
       {/* 하단 네비게이션 */}
-      <nav className="bg-white border-t border-gray-200 p-3 z-20 flex-shrink-0 w-full shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+      <nav className="bg-white border-t border-gray-200 pt-3 px-3 pb-[calc(12px+env(safe-area-inset-bottom))] z-20 flex-shrink-0 w-full shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
         <div className="max-w-2xl mx-auto grid grid-cols-4 gap-2">
           <button onClick={goHome} className={`py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center ${currentView === 'home' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏠 홈
