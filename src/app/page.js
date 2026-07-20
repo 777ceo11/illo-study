@@ -178,11 +178,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 sm:p-8">
-      <div className="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden h-[88vh] sm:h-[88vh] min-h-[600px] flex flex-col relative">
-        
-        {/* 상단 헤더 */}
-        <header className="bg-blue-600 text-white p-4 flex justify-between items-center shadow-md relative z-10">
+    <div className="h-screen w-full flex flex-col bg-gray-50 overflow-hidden">
+      
+      {/* 상단 헤더 */}
+      <header className="bg-blue-600 text-white p-4 shadow-md z-30 shrink-0 w-full">
+        <div className="max-w-2xl mx-auto w-full flex justify-between items-center">
           <div className="cursor-pointer" onClick={goHome}>
             <h1 className="text-xl font-bold tracking-wider">ILLO STUDY</h1>
             <p className="text-blue-100 text-xs mt-1">Speed Networking</p>
@@ -192,10 +192,12 @@ export default function Home() {
               🏠 Home
             </button>
           )}
-        </header>
+        </div>
+      </header>
 
-        {/* 본문 영역 */}
-        <main className="flex-grow p-6 bg-gray-50 overflow-y-auto pb-24">
+      {/* 본문 영역 */}
+      <main className="flex-grow p-4 sm:p-6 overflow-y-auto w-full">
+        <div className="max-w-2xl mx-auto">
           
           {/* 메인 홈 화면 */}
           {currentView === 'home' && (
@@ -311,10 +313,12 @@ export default function Home() {
               ))}
             </div>
           )}
-        </main>
+        </div>
+      </main>
 
-        {/* 하단 네비게이션 */}
-        <nav className="absolute bottom-0 w-full bg-white border-t border-gray-200 p-3 grid grid-cols-4 gap-2 z-20">
+      {/* 하단 네비게이션 */}
+      <nav className="bg-white border-t border-gray-200 p-3 z-20 shrink-0 w-full shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+        <div className="max-w-2xl mx-auto grid grid-cols-4 gap-2">
           <button onClick={goHome} className={`py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center ${currentView === 'home' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏠 홈
           </button>
@@ -327,8 +331,8 @@ export default function Home() {
           <button onClick={() => viewList('상')} className={`py-2 rounded-lg text-sm font-semibold transition-colors border ${currentView === 'list' && selectedLevel === '상' ? 'bg-red-600 text-white border-red-600' : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'}`}>
             상 리스트
           </button>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </div>
   );
 }
