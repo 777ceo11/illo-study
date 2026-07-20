@@ -237,8 +237,8 @@ export default function Home() {
                 </h3>
                 <ul className="text-sm text-gray-700 space-y-3 leading-relaxed">
                   <li>
-                    <strong className="text-blue-800">1. 랜덤 질문 뽑기:</strong><br/>
-                    새로운 파트너와 매칭되면 상단의 슬롯머신 버튼을 돌려 무작위 질문을 뽑아 대화를 나눠보세요.
+                    <strong className="text-blue-800">1. 내가 뽑고 파트너가 질문하기:</strong><br/>
+                    내가 랜덤 질문을 뽑은 후 파트너에게 "난이도X, Y번 질문 읽어줘!"라고 말하세요. 파트너는 하단 리스트에서 해당 질문을 찾아 나에게 읽어줍니다.
                   </li>
                   <li>
                     <strong className="text-blue-800">2. 대화 완료 체크 ✔️:</strong><br/>
