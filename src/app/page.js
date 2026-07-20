@@ -44,6 +44,51 @@ const questionDB = [
 // 단일 카드 컴포넌트
 const QuestionCard = ({ data, isAnswered, onToggle }) => {
   const [showKo, setShowKo] = useState(false);
+  const [userKorean, setUserKorean] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [hintData, setHintData] = useState(null);
+  const [showFullAnswer, setShowFullAnswer] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleRequestHelp = async (e) => {
+    e.preventDefault();
+    if (!userKorean.trim()) return;
+
+    setLoading(true);
+    setError('');
+    setHintData(null);
+    setShowFullAnswer(false);
+
+    try {
+      const response = await fetch('/api/hint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentQuestion: data.q,
+          userKorean: userKorean,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+
+      const resData = await response.json();
+      if (resData.error) {
+        throw new Error(resData.error);
+      }
+
+      setHintData(resData);
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Error occurred while loading hints.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={`bg-white rounded-xl shadow-sm border p-5 mb-4 transition-all duration-300 ${isAnswered ? 'border-blue-400 bg-blue-50/40' : 'border-gray-200'}`}>
       <div className="flex items-center justify-between mb-3">
@@ -86,16 +131,95 @@ const QuestionCard = ({ data, isAnswered, onToggle }) => {
 
       <button 
         onClick={() => setShowKo(!showKo)}
-        className="w-full py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+        className="w-full py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors mb-3"
       >
         {showKo ? '한국어 해설 닫기' : '한국어 해설 보기'}
       </button>
       
       {showKo && (
-        <div className="mt-3 p-3 bg-gray-800 text-white rounded-lg text-sm leading-relaxed">
+        <div className="p-3 bg-gray-800 text-white rounded-lg text-sm leading-relaxed mb-3">
           {data.trans}
         </div>
       )}
+
+      {/* S.O.S English Helper */}
+      <div className="border-t border-dashed border-gray-200 pt-4 mt-1">
+        <div className="flex items-center gap-2 mb-2 text-rose-600 font-bold text-sm">
+          <span>🚨</span> S.O.S English Helper
+        </div>
+        <form onSubmit={handleRequestHelp} className="flex gap-2">
+          <input
+            type="text"
+            value={userKorean}
+            onChange={(e) => setUserKorean(e.target.value)}
+            placeholder="Need help? Just type the Korean sentence you want to say in English."
+            className="flex-grow px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 placeholder-gray-400 text-gray-800"
+            disabled={loading}
+          />
+          <button
+            type="submit"
+            disabled={loading || !userKorean.trim()}
+            className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition disabled:opacity-50 flex-shrink-0"
+          >
+            {loading ? 'Hold on...' : 'S.O.S'}
+          </button>
+        </form>
+
+        {loading && (
+          <div className="mt-3 p-3 bg-rose-50 text-rose-700 rounded-lg text-sm flex items-center justify-center gap-2">
+            <span className="animate-spin">🌀</span> Hold on... AI is preparing your hints!
+          </div>
+        )}
+
+        {error && (
+          <div className="mt-3 p-3 bg-red-50 text-red-600 rounded-lg text-sm border border-red-100">
+            ⚠️ {error}
+          </div>
+        )}
+
+        {hintData && (
+          <div className="mt-3 bg-rose-50/50 border border-rose-100 rounded-lg p-3 text-sm">
+            <div className="mb-2">
+              <span className="font-bold text-rose-900 block mb-1">🔍 Pattern Frame</span>
+              <p className="bg-white px-2 py-1.5 rounded border border-rose-100 text-gray-850 font-mono">{hintData.pattern}</p>
+            </div>
+            
+            {hintData.vocabHints && hintData.vocabHints.length > 0 && (
+              <div className="mb-3">
+                <span className="font-bold text-rose-900 block mb-1">💡 Word Hints</span>
+                <ul className="list-disc pl-4 space-y-1 text-gray-700">
+                  {hintData.vocabHints.map((hint, idx) => (
+                    <li key={idx}>{hint}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {!showFullAnswer ? (
+              <button
+                type="button"
+                onClick={() => setShowFullAnswer(true)}
+                className="w-full py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-semibold text-xs transition active:scale-95 shadow-sm"
+              >
+                🔥 Need MORE (모범 답안 & 치트키 확인하기)
+              </button>
+            ) : (
+              <div className="mt-3 border-t border-rose-200/60 pt-3 space-y-3">
+                <div>
+                  <span className="font-bold text-rose-900 block mb-1">🎯 Model Answer</span>
+                  <p className="bg-rose-100/50 p-2 rounded text-rose-900 font-semibold">{hintData.modelAnswer}</p>
+                </div>
+                {hintData.cheatKey && (
+                  <div>
+                    <span className="font-bold text-amber-700 block mb-1">🔑 OPIc Cheat Key</span>
+                    <p className="bg-amber-50 border border-amber-100 p-2 rounded text-amber-900 text-xs">{hintData.cheatKey}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
