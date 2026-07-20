@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" as="style" crossOrigin="true" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
       </head>
-      <body style={{ fontFamily: 'Pretendard, sans-serif', backgroundColor: '#f8fafc' }}>
+      <body className="h-screen w-screen overflow-hidden m-0 p-0" style={{ fontFamily: 'Pretendard, sans-serif', backgroundColor: '#f8fafc' }}>
         {children}
       </body>
     </html>

@@ -181,7 +181,7 @@ export default function Home() {
     <div className="h-screen w-full flex flex-col bg-gray-50 overflow-hidden">
       
       {/* 상단 헤더 */}
-      <header className="bg-blue-600 text-white p-4 shadow-md z-30 shrink-0 w-full">
+      <header className="bg-blue-600 text-white p-4 shadow-md z-30 flex-shrink-0 w-full">
         <div className="max-w-2xl mx-auto w-full flex justify-between items-center">
           <div className="cursor-pointer" onClick={goHome}>
             <h1 className="text-xl font-bold tracking-wider">ILLO STUDY</h1>
@@ -196,7 +196,7 @@ export default function Home() {
       </header>
 
       {/* 본문 영역 */}
-      <main className="flex-grow p-4 sm:p-6 overflow-y-auto w-full">
+      <main className="flex-1 p-4 sm:p-6 overflow-y-auto w-full">
         <div className="max-w-2xl mx-auto">
           
           {/* 메인 홈 화면 */}
@@ -317,7 +317,7 @@ export default function Home() {
       </main>
 
       {/* 하단 네비게이션 */}
-      <nav className="bg-white border-t border-gray-200 p-3 z-20 shrink-0 w-full shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+      <nav className="bg-white border-t border-gray-200 p-3 z-20 flex-shrink-0 w-full shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
         <div className="max-w-2xl mx-auto grid grid-cols-4 gap-2">
           <button onClick={goHome} className={`py-2 rounded-lg text-sm font-semibold transition-colors flex justify-center items-center ${currentView === 'home' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
             🏠 홈
