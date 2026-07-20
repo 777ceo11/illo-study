@@ -89,6 +89,17 @@ const QuestionCard = ({ data, isAnswered, onToggle }) => {
     }
   };
 
+  const renderBoldText = (text) => {
+    if (!text) return '';
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index} className="font-extrabold text-rose-600 underline">{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+  };
+
   return (
     <div className={`bg-white rounded-xl shadow-sm border p-5 mb-4 transition-all duration-300 ${isAnswered ? 'border-blue-400 bg-blue-50/40' : 'border-gray-200'}`}>
       <div className="flex items-center justify-between mb-3">
@@ -207,7 +218,7 @@ const QuestionCard = ({ data, isAnswered, onToggle }) => {
               <div className="mt-3 border-t border-rose-200/60 pt-3 space-y-3">
                 <div>
                   <span className="font-bold text-rose-900 block mb-1">🎯 Model Answer</span>
-                  <p className="bg-rose-100/50 p-2 rounded text-rose-900 font-semibold">{hintData.modelAnswer}</p>
+                  <p className="bg-rose-100/50 p-2 rounded text-rose-900 font-semibold">{renderBoldText(hintData.modelAnswer)}</p>
                 </div>
                 {hintData.cheatKey && (
                   <div>
